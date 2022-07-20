@@ -24,7 +24,7 @@ class ArticlesController < ApplicationController
 
     def create
         @article = Article.new(params.require(:article).permit(:title, :description))
-        @article.user = User.first
+        @article.user = current_user
         if @article.save
             redirect_to @article
        else
@@ -47,7 +47,7 @@ class ArticlesController < ApplicationController
     def destroy
         
         @article.destroy
-        redirect_to articles_path
+        redirect_to articles_path,status: :see_other
 
     end
 
