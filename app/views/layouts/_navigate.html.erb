@@ -6,12 +6,24 @@
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
-            <%= link_to "Show Articles", articles_path %>
+        <% if logged_in? %>
             <%= link_to 'Create Article', new_article_path %>
+        <% end %>
+            <%= link_to "View Articles", articles_path %>
+            
         </div>   
     </div> 
     <% if logged_in? %>
-        <%= link_to current_user.username, user_path(current_user) %>
+    <div class="dropdown">
+        <button class="dropbtn"><%= "(Admin)" if current_user.admin? %><%= current_user.username %>
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+        <%= link_to 'View your profile', user_path(current_user) %>
+        <%= link_to "Edit your profile", edit_user_path(current_user) %>
+        <%= link_to "Delete profile", user_path(current_user), data: { "turbo-method": :delete ,confirm: "Are you sure?" }%>
+        </div>   
+    </div> 
         <%= link_to "Log Out", logout_path, data: { "turbo-method": :delete } %>
     <% else %>
         <%= link_to "Log In", login_path %>
